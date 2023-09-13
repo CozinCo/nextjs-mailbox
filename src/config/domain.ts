@@ -1,0 +1,1 @@
+export const DomainsAllowed = ["gmail.com", "outlook.com", "cozin.co"]
