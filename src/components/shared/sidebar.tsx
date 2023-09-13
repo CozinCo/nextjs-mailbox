@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { SidebarMenu } from "@/config/sidebarMenu"
-import { Icons } from "../icons"
 
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> { }
