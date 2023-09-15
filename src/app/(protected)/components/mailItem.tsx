@@ -1,3 +1,5 @@
+import { Icons } from '@/components/icons'
+import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
@@ -6,84 +8,71 @@ import React from 'react'
 
 const MailItem = () => {
     const status = true;
-    const isUnread = status  ? "font-bold bg-blue-100 hover:bg-blue-200 dark:bg-gray-700 dark:hover:bg-slate-500 ":"font-normal hover:bg-slate-200 "
+    const isUnread = status ? "font-bold bg-blue-100 hover:bg-blue-200 dark:bg-gray-700 dark:hover:bg-slate-500 " : "font-normal hover:bg-slate-200 bg-[#f5f4f2fe] dark:bg-slate-900 dark:hover:bg-gray-700 "
     return (
-        <ScrollArea>
-            <Card>
-                <div className={cn(`grid lg:grid-cols-5 sm:grid-cols-3 justify-between gap-4 justify-items-stretch px-6 py-4 max-w-sm overflow-hidden p-4 bg-slate-100 text-white  dark:bg-slate-900  xl:max-w-screen-xl 2xl:max-w-screen-lg dark:hover:bg-gray-700`,isUnread)}>
-                    <div className="justify-self-auto">
-                        <div className="inline-flex items-center space-x-4">
+        <ScrollArea className='mt-2 '>
+            <Card className={cn(`hover:border-[#291d58fe] dark:hover:border-1 w-full group/item`, isUnread)} >
+                <div className="flex flex-wrap lg:space-x-4 md:space-x-4 xl:space-x-4 items-center p-2 xl:px-4 lg:px-4 md:px-4">
+                    <div className="lg:w-56 md:w-38 hidden lg:block md:block">
+                        <div className="inline-flex justify-between space-x-4">
                             <div>
                                 <input
                                     id="checkbox-9"
                                     aria-describedby="checkbox-1"
                                     type="checkbox"
-                                    className="h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                                    className="h-4 w-4 rounded border-gray-300 bg-gray-50  dark:border-gray-600 dark:bg-gray-700 "
                                 />
-                                <label htmlFor="checkbox-9" className="sr-only">
-                                    checkbox
-                                </label>
-
                             </div>
-                            <svg
-                                className="h-6 w-6 text-gray-500 hover:text-blue-300 dark:text-white   dark:hover:text-yellow-300"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                            <div className="items-center inline-flex">
+                                <span> <Icons.star /></span>
+                                <Badge className='ml-2'>inbox</Badge>
+                            </div>
+                        </div></div>
+                    <div className="w-auto">
+                        <div className="justify-start flex px-4">
+                            <Link
+                                href="/mailbox/read"
+                                className="text-base  text-black dark:text-white"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                                <img
+                                    className="h-6 w-6 rounded-full inline-flex"
+                                    src="../../images/users/leslie-livingston.png"
+                                    alt=""
                                 />
-                            </svg>
-                            <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-white bg-rose-700 no-underline group-hover:no-underline">
-                                Inbox
-                            </span>
+                                Leslie Livingston
+                            </Link>
                         </div>
                     </div>
-                    <div className="justify-self-auto flex">
-
-                        <Link
-                            href="/mailbox/read"
-                            className="text-base  dark:text-white "
-                        >
-                            <img
-                                className="h-6 w-6 rounded-full inline-flex"
-                                src="../../images/users/leslie-livingston.png"
-                                alt=""
-                            />
-                            Leslie Livingston
-                        </Link>
-                    </div>
-                    <div className="hidden lg:block md:block justify-self-auto truncate text-gray-500 dark:text-white">Name were we at hope. Remainder household direction
+                    <div className="w-auto shrink truncate px-2">Subject</div>
+                    <div className="w-[33%] xl:w-[20%] 2xl:w-[35%] lg:w-[20%] hidden lg:block   truncate text-black dark:text-white  ">Name were we at hope. Remainder household direction
                         zealously the unwilling bed sex. Lose and gay ham sake met
                         that. Stood her place one ten spoke yet. Head case knew
                         ever set why over. Marianne returned of peculiar reading
                         in moderate. Roused get enable garret estate old county.
                         Entreaties you devonshire law dissimilar terminated.</div>
-                    <div className="justify-self-auto hidden lg:block md:block text-gray-500 dark:text-white">  11 April at 15.28 PM</div>
-                    <div className="justify-self-auto">
-                        <span
-                            className="cursor-pointer justify-center rounded  text-gray-500 hover:bg-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >
+                    <div className="w-auto shrink inline-flex px-2 items-end ">
+                        <div className="group/edit invisible inline-flex justify-center items-center dark:bg-slate-700 bg-gray-400  group-hover/item:visible group-hover/item:px-2 group-hover/item:rounded-full "  >
+                            <span className="group-hover/edit:text-white-700 ...">Delte</span>
                             <svg
                                 stroke="currentColor"
                                 fill="currentColor"
                                 strokeWidth={0}
                                 viewBox="0 0 20 20"
-                                className="text-2xl"
+                                className="text-xl group-hover/edit:translate-x-0.5 group-hover/edit:text-white-500"
                                 height="1em"
                                 width="1em"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
-                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                <path
+                                    fillRule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clipRule="evenodd"
+                                />
                             </svg>
-                        </span>
-
+                        </div>
+                        <span className="hidden lg:block group-hover/item:invisible ">      15.28 PM</span>
                     </div>
+
 
                 </div>
             </Card>

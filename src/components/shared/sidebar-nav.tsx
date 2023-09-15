@@ -7,22 +7,30 @@ import { cn } from "@/lib/utils"
 import { SidebarNavMenu } from "@/lib/constants"
 import { Button } from "../ui/button"
 import { SidebarNavItemsProps } from "@/types/nav"
- 
+import { Icons } from "../icons"
+import { ToggleAny } from "../common/toggleAny"
+import { PopoverMe } from "../common/popover"
+
 
 export function SidebarNav() {
     const pathname = usePathname()
 
     return SidebarNavMenu.length ? (
         <div className="w-full">
-            <div className=" py-2">
-                <Button className="py-2 mb-4 mx-4 hidden lg:block md:block bg-blue-500" variant={"outline"}>
-                    New Mail
-                </Button>
-                <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                    Primary
-                </h2>
+            <div className="py-2">
+                <div className="inline-flex justify-center items-center">
+                    <Button className="py-2 mb-4 mx-4 hidden lg:block md:block bg-blue-500 text-white " variant={"outline"}>
+                        New Message
+                    </Button>
+                    <span className="py-2 mb-4 text-white">
+                        <PopoverMe content={<h1>Hello Ji</h1>}>
+                            <Icons.apps />
+                        </PopoverMe>
+                    </span>
+                </div>
+
                 {SidebarNavMenu.map((item, index) => (
-                    <div key={index} className={cn("pb-4")}>
+                    <div key={index} className={cn("pb-4 px-1")}>
                         {item?.items?.length && (
                             <SidebarNavItems items={item.items} pathname={pathname} />
                         )}
@@ -31,11 +39,10 @@ export function SidebarNav() {
             </div>
             <div className="px-3 py-2">
                 <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                    Categories
+                    Folders
                 </h2>
-                <div className="space-y-1">
+                <div >
                     <Button variant="ghost" className="w-full justify-start">
-                       
                         Playlists
                     </Button>
                 </div>
@@ -56,7 +63,7 @@ export function SidebarNav() {
                             </button>
                         </div>
                         <p className="mb-3 text-sm text-blue-800 dark:text-blue-400">
-                              You can turn the new navigation off for a limited time in your profile.
+                            You can turn the new navigation off for a limited time in your profile.
                         </p>
                         <a className="text-sm text-blue-800 underline font-medium hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" href="#">Turn new navigation off</a>
                     </div>
@@ -72,14 +79,11 @@ export function SidebarNavItems({
     pathname,
 }: SidebarNavItemsProps) {
     return items?.length ? (
-        <div className="grid grid-flow-row auto-rows-max text-sm">
+        <div className="grid grid-flow-row  text-sm">
             {items.map((item, index) =>
                 item.href && !item.disabled ? (
-                    <Link href={item.title} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <span className="flex-1 ml-3 whitespace-nowrap">{item.title}</span>
-
-
-
+                    <Link href={item.title} className="flex mt-0.5 justify-between  items-center p-2 text-base font-normal  text-white rounded-lg dark:text-white bg-[#291d58fe] hover:bg-[#1b1340fe] dark:hover:bg-[#1b1340fe]  group">
+                        <span className="ml-3 whitespace-nowrap">{item.title}</span>
                         {item.label && (
                             <span className="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-blue-200 dark:bg-amber-300 text-blue-800 dark:text-blue-800">
                                 6

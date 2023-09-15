@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react"; 
-import { SiteHeader } from "@/components/shared/header";
+import React from "react";
+import { Header } from "@/components/shared/header";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface LayoutProps {
 export function AppLayout({ children }: LayoutProps) {
   return (
     <React.Fragment>
-      <SiteHeader />
+      <Header />
       {children}
     </React.Fragment>
   );

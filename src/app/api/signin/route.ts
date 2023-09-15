@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
             });
         }
 
-
     } catch (error: any) {
         console.log("test")
         return new NextResponse(JSON.stringify({ success: false, message: error.message }), {

@@ -17,13 +17,13 @@ export const ServerConfig = {
         smtp_secure: "TLS",
         secure: false,        
     },
-    // "yourdomain": {
-    //     imap_host: 'imap-mail.yourdomain',
-    //     imap_port: 993,
-    //     imap_secure :"SSL",        
-    //     smtp_host: 'smtp-mail.yourdomain',
-    //     smtp_port: 587,
-    //     smtp_secure: "TLS",
-    //     secure: false,        
-    // }
+    "cozin.co": {
+        imap_host: 'imap.cozin.co',
+        imap_port: 993,
+        imap_secure :"SSL",        
+        smtp_host: 'smail.cozin.co',
+        smtp_port: 587,
+        smtp_secure: "TLS",
+        secure: false,        
+    }
 }
