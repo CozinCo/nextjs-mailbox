@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/auth/components/user-auth-form";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-
+ 
 export default function LoginPage() {
   return (
     <main className="flex h-screen items-center justify-center">
+    
       <Link
         href="/"
         className={cn(

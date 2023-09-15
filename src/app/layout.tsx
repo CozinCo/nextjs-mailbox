@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from 'next/font/local'
+import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme/theme-provider"; 
 const CalSans = localFont({ src: '../assets/fonts/CalSans-SemiBold.woff2', variable: '--font-cal-sans',fallback: ["--font-inter" ]});
 
@@ -12,11 +13,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }): JSX.Element {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <Toaster />
       <body className={CalSans.variable}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>        
           {props.children}
         </ThemeProvider>
+        
       </body>
     </html>
   );

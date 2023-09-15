@@ -15,16 +15,11 @@ export function MainNav({
       
       <Link
         href="/settings"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary hidden lg:block md:block px-2"
       >
         Settings
       </Link>
-      <span
-        
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        <ThemeToggle />
-      </span>
+      <ThemeToggle className="hidden lg:block md:block" />
     </nav>
   )
 }

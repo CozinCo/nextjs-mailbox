@@ -3,7 +3,7 @@ export const SidebarMenu = [
    
     {
         name: "Inbox",
-        link: "/inbox",
+        link: "/mailbox",
         icon: "HomeIcon"
     },
     {

@@ -1,118 +1,85 @@
 "use client";
 
 import * as React from "react";
-import { useRouter  as useNextRouter  } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 
 // updated
-
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/common/spinner";
+import { z } from "zod";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> { }
 
-export type InputData = {
-  firstName: string;
-  lastName: string;
-  phone: number;
-  email: string;
-  password: string;
-};
+
 export function UserAuthForm({
-  className, 
+  className,
   ...props
 }: {
- 
+
   className?: string;
   props?: UserAuthFormProps;
 }) {
-  const router = useNextRouter();
-  // const change = useRouter();
+  const router = useRouter();
+  const searchParams = useSearchParams()
 
- 
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-  const [inputs, setInputs] = React.useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
+
 
   let callbackURL = "/";
-  // if (change.query) {
-  //   callbackURL = `${change.query.callbackURL}`;
-  // }
+  if (searchParams.has("redirect")) {
+    callbackURL = `${searchParams.get("redirect")}`;
+  }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
-    toast({
-      title: "Are Ruko Zara, Sabar Kro...",
-    });
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
-    // FormType === "signin" ? await LoginHandle() : await SignUpHandle()
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
-  }
-  // async function LoginHandle() {
-  //   const { data } = await axios.post("/api/auth/login", {
-  //     email: inputs.email,
-  //     password: inputs.password,
-  //   })
-  //   if (data.success) {
-  //     dispatch(setAuth(true))
-  //     router.push(callbackURL)
-  //     return toast({
-  //       title: "Redirecting...",
-  //       description: data.message,
-  //     })
-  //   } else {
-  //     setIsLoading(false)
-  //     return toast({
-  //       title: "Something went wrong",
-  //       description: data.message,
-  //       variant: "destructive",
-  //     })
-  //   }
-  // }
-  // async function SignUpHandle() {
-  //   const { data } = await axios.post("/api/auth/new", inputs)
-  //   if (data.success) {
-  //     router.push(callbackURL)
-  //     return toast({
-  //       title: "Redirecting...",
-  //       description: data.message,
-  //     })
-  //   } else {
-  //     return toast({
-  //       title: "Something went wrong",
-  //       description: data.message,
-  //       variant: "destructive",
-  //     })
-  //   }
-  // }
-  function handleChangeInputValue(e: React.ChangeEvent<HTMLInputElement>) {
-    setInputs({ ...inputs, [e.target.id]: e.target.value });
-  }
-  function keyPress(e: React.KeyboardEvent) {
-    if (e.key === "Escape") {
-      // setLoader(false)
+    try {
+      setIsLoading(true);
+      const AuthCredentials = {
+        email: (document.getElementById("email")! as HTMLInputElement).value,
+        password: (document.getElementById("password")! as HTMLInputElement).value,
+      }
+      const user = z.object({ email: z.string().email(), password: z.string(), })
+      // const requiredUser = user.required().parse(AuthCredentials);      
+      if (AuthCredentials.email === "" || AuthCredentials.password === "") {
+        console.log(AuthCredentials)
+        toast({
+          title: "Something went wrong",
+          description: "data.message",
+          variant: "destructive",
+        })
+        return;
+      }
+      const response = await fetch('/api/signin', { method: 'POST', body: JSON.stringify(AuthCredentials) });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      localStorage.setItem("iauth", AuthCredentials.email);
+      router.replace("/mailbox")
+    } catch (error: any) {
+      toast({
+        title: "Something went wrong",
+        description: error.message,
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false);
     }
   }
-  function handleGoogleLogin() {
-    // dispatch(setLoader(true))
-    let params = `status=no,location=no,toolbar=no,menubar=no,width=800,height=800,left=-1000,top=-1000`;
-    // window.open(googleAuthUrl, "Account Progress", params)
+
+
+  function keyPress(e: React.KeyboardEvent) {
+    if (e.key === "Escape") {
+      setIsLoading(false)
+    }
   }
 
-  React.useEffect(() => {
-   
-  }, [ inputs]);
   React.useEffect(() => {
     let retry = true;
     if (retry) {
@@ -137,14 +104,14 @@ export function UserAuthForm({
 
   return (
     <>
+      {isLoading && <Spinner />}
       <form
         onKeyUpCapture={() => keyPress}
         onSubmit={(event) => onSubmit(event)}
         className={cn("grid gap-6 p-4", className)}
         {...props}
       >
-        <div className="flex flex-col space-y-4">        
-
+        <div className="flex flex-col space-y-4">
           <div className="grid gap-2">
             <Label htmlFor="email" className="sr-only">
               Email
@@ -156,8 +123,7 @@ export function UserAuthForm({
               autoComplete="email"
               autoCorrect="off"
               placeholder="Enter your email address..."
-              value={inputs.email}
-              onChange={handleChangeInputValue}
+
             />
           </div>
           <div className="grid gap-2">
@@ -168,16 +134,15 @@ export function UserAuthForm({
               id="password"
               type="password"
               placeholder="Password"
-              value={inputs.password}
-              onChange={handleChangeInputValue}
+
             />
           </div>
           <Button type="submit" disabled={disabled}>
-           Sign In
+            Sign In
           </Button>
         </div>
       </form>
-     
+
     </>
   );
 }
