@@ -24,7 +24,7 @@ export interface MainNavItem extends NavItem { }
 export interface SidebarNavItem extends NavItemWithChildren { }
 export interface FolderFromApi {
   path: string,
-  pathAsListed:string,
+  pathAsListed: string,
   flags: {},
   delimiter: string,
   listed: boolean,
@@ -34,4 +34,12 @@ export interface FolderFromApi {
   subscribed: boolean,
   specialUse: string,
   specialUseSource: string
+}
+export interface MailBoxData   {
+  seq: number;
+  id: string;
+  date: Date;
+  subject: string;
+  name: string;
+  address: string;
 }
