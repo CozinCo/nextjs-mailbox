@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
@@ -11,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/common/spinner";
 import { z } from "zod";
-
+import { type } from "os";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> { }
 
 
@@ -25,16 +23,14 @@ export function UserAuthForm({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams()
-
-
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [disabled, setDisabled] = React.useState(false);
-
-
   let callbackURL = "/";
   if (searchParams.has("redirect")) {
     callbackURL = `${searchParams.get("redirect")}`;
   }
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(false);
+
+
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,11 +39,9 @@ export function UserAuthForm({
       const AuthCredentials = {
         email: (document.getElementById("email")! as HTMLInputElement).value,
         password: (document.getElementById("password")! as HTMLInputElement).value,
-      }
-      const user = z.object({ email: z.string().email(), password: z.string(), })
-      // const requiredUser = user.required().parse(AuthCredentials);      
+      }   
       if (AuthCredentials.email === "" || AuthCredentials.password === "") {
-        console.log(AuthCredentials)
+        (document.getElementById("email")! as HTMLInputElement).focus()
         toast({
           title: "Something went wrong",
           description: "data.message",
@@ -57,11 +51,11 @@ export function UserAuthForm({
       }
       const response = await fetch('/api/signin', { method: 'POST', body: JSON.stringify(AuthCredentials) });
       const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
+      if (data.success) {
+        console.log("first")
+        router.push("/mailbox")
+        window.localStorage.setItem("iauth", AuthCredentials.email);
       }
-      localStorage.setItem("iauth", AuthCredentials.email);
-      router.replace("/mailbox")
     } catch (error: any) {
       toast({
         title: "Something went wrong",
@@ -86,7 +80,7 @@ export function UserAuthForm({
       setInterval(() => {
         const redirect = window.localStorage.getItem("redirect") || null;
         if (redirect) {
-          // setLoader(false)
+          setIsLoading(false)
           retry = false;
           router.push(callbackURL);
           window.localStorage.removeItem("redirect");
@@ -95,7 +89,7 @@ export function UserAuthForm({
     }
     const down = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        // setLoader(false)
+        setIsLoading(false)
       }
     };
 

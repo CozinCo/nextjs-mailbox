@@ -9,8 +9,7 @@ export default async function Mailbox() {
       <MailHeader />
       <RightClickContextMenu>
         <MailItem />
-      </RightClickContextMenu>
-      
+      </RightClickContextMenu>      
       <MailFooter />
     </div>
   );

@@ -1,15 +1,12 @@
-import fs from 'fs'
-import imap from 'imap';
-import path from 'path'
+import fs from 'fs' 
 import { NextRequest, NextResponse } from 'next/server';
 import { ServerConfig } from '@/config/mailServer';
-import { configDir } from '@/lib/helpers';
+import { configDir, createImapConnection } from '@/lib/helpers';
 type RequestBody = {
     email: string;
     password: string;
 }
 export async function POST(req: NextRequest) {
-    let isError = false;
     try {
         const body = await req.json() as RequestBody;
         const extractDomain = body.email.split('@')[1] as keyof typeof ServerConfig;
@@ -19,29 +16,20 @@ export async function POST(req: NextRequest) {
                 status: 401,
             });
         }
-        const imapConfig = {
-            host: ServerConfig[extractDomain].imap_host,
-            port: ServerConfig[extractDomain].imap_port as number,
-            tls: true, user: body.email, password: body.password
-        };
-        const imapConnection = new imap(imapConfig);
-          imapConnection.connect()        
-       
-        fs.createWriteStream(`${configDir}/${body.email}.json`, { encoding: 'utf-8' }).write(JSON.stringify({ ...ServerConfig, [extractDomain]: { ...ServerConfig[extractDomain], user: body.email, password: body.password } }));
-        
-        if (isError) {
+     const client = await   createImapConnection(extractDomain, body.email, body.password);
+        if (client.authenticated) {
             new NextResponse(JSON.stringify({ success: false, message: "Authentication Failed" }), {
                 status: 401,
             });
-        } else {
-            return new NextResponse(JSON.stringify({ success: true, message: "Authentication Successful" }), {
-                status: 200,
-            });
         }
+        // let AllMailbox = await client.list()
+        fs.createWriteStream(`${configDir}/${body.email}.json`, { encoding: 'utf-8' }).write(JSON.stringify({ ...ServerConfig, [extractDomain]: { ...ServerConfig[extractDomain], user: body.email, password: body.password } }));
 
+        return new NextResponse(JSON.stringify({ success: true, message: "Authentication Successful" }), {
+            status: 200,
+        });
     } catch (error: any) {
-        console.log("test")
-        return new NextResponse(JSON.stringify({ success: false, message: error.message }), {
+        return new NextResponse(JSON.stringify({ success: false, message: error.responseText }), {
             status: 401,
         });
     }

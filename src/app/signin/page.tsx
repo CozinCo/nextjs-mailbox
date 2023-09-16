@@ -1,11 +1,14 @@
+"use client";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/auth/components/user-auth-form";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { toast } from "@/hooks/use-toast";
  
 export default function LoginPage() {
+  const theme = window.localStorage.getItem("theme")
+  const logo = theme === "light" ? "/logo2-light.jpg" : "/logo2-dark.png"  
   return (
     <main className="flex h-screen items-center justify-center">
     
@@ -20,12 +23,12 @@ export default function LoginPage() {
       </Link>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[320px]">
         <div className="flex flex-col text-center">
-          <img className="logo" src="/logo2-light.jpg" />
+          <img className="logo" src={logo} />
           <div className="space-y-1">
             <h1 className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">
               Welcome back
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400" >
               Click continue to login
             </p>
           </div>

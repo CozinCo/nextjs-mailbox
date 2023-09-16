@@ -2,6 +2,7 @@ export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
   name: "SEND",
+  apiUrl: process.env.NEXT_PUBLIC_API_URL,
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
   mainNav: [

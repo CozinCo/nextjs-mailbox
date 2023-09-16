@@ -1,23 +1,37 @@
 import fs from 'fs'
 import path from 'path'
 import imap from 'imap'
+import { ImapFlow } from 'imapflow';
+
 import { ServerConfig } from '@/config/mailServer'
 export const configDir = path.join(process.cwd(), 'src', "data")
 
-export const IMAP_ServerConfig = async (currentUser: keyof typeof ServerConfig) => {
-    const data = await ReadCurrentUserConfig(currentUser)
-    const imapConfig = {
+export const staticImapConn = async (currentUser: string) => {
+    const data = await ReadCurrentUserConfig(currentUser)   
+    const client = new ImapFlow({
+        logger: false,
         host: data.imap_host,
-        port: data.imap_port as number,
-        tls: true, user: data.user, password: data.password
-    };
-    const imapConnection = new imap(imapConfig);
-    imapConnection.connect()
-    return imapConnection
+        port: 993,
+        secure: true,
+        auth: { user:data.user, pass:data.password },
+    });
+    await client.connect();
+    return client
 }
-export const ReadCurrentUserConfig = (currentUser: keyof typeof ServerConfig) => {
+export const ReadCurrentUserConfig = (currentUser: string) => {
     const data = fs.readFileSync(`${configDir}/${currentUser}.json`, { encoding: 'utf-8' })
     const config = JSON.parse(data)
     const domain = currentUser.split('@')[1]
     return config[domain]
+}
+export const createImapConnection = async (host: keyof (typeof ServerConfig), user: string, pass: string) => {
+    const client = new ImapFlow({
+        logger: false,
+        host: host,
+        port: 993,
+        secure: true,
+        auth: { user, pass },
+    });
+    await client.connect();
+    return client
 }
