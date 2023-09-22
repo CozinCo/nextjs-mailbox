@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/auth/components/user-auth-form";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { toast } from "@/hooks/use-toast";
  
 export default function LoginPage() {
   const theme = window.localStorage.getItem("theme")

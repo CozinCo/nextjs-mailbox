@@ -10,3 +10,11 @@ export const fetcher = async (url: string, options: any = {},): Promise<any> => 
 
     return data
 }
+export const FetchMailBoxMails = async (mailboxName: string = "inbox") => {
+    const response = await fetcher(`/mailservice/read/${mailboxName}`, {
+      headers: {
+        iauth: "mullayam06@outlook.com"
+      }
+    })
+    return response
+  }

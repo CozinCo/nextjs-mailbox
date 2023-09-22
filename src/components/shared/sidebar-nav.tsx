@@ -1,20 +1,16 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-
+import Link from "next/link" 
 import { cn } from "@/lib/utils"
 import { SidebarNavMenu } from "@/lib/constants"
 import { Button } from "../ui/button"
 import { FolderFromApi, SidebarNavItemsProps } from "@/types/nav"
 import { Icons } from "../icons"
-import { ToggleAny } from "../common/toggleAny"
+ 
 import { PopoverMe } from "../common/popover"
-import { Icon } from "@radix-ui/react-select"
-
+ 
 export function SidebarNav({ AllFolders }: { AllFolders: FolderFromApi[] }) {
-    const pathname = usePathname()
-
+    
     return SidebarNavMenu.length ? (
         <div className="w-full">
             <div className="py-2">
@@ -22,7 +18,7 @@ export function SidebarNav({ AllFolders }: { AllFolders: FolderFromApi[] }) {
                     <Button className="py-2 mb-4 mx-4 hidden lg:block md:block bg-blue-500 text-white " variant={"outline"}>
                         New Message
                     </Button>
-                    <span className="py-2 mb-4 text-white">
+                    <span className="py-2 mb-4 dark:text-white text-slate-800 ">
                         <PopoverMe content={<h1>Hello Ji</h1>}>
                             <Icons.apps />
                         </PopoverMe>
@@ -31,7 +27,7 @@ export function SidebarNav({ AllFolders }: { AllFolders: FolderFromApi[] }) {
                 {AllFolders.map((item, index) => (
                     <div className="grid grid-flow-row  text-sm" key={index} >
                         <div className="">
-                            <Link href={"mailbox/" + (item.pathAsListed).toLowerCase()} key={index} className="flex mt-0.5 justify-between items-center p-2 text-base font-normal  text-white rounded-lg dark:text-white bg-[#291d58fe] hover:bg-[#1b1340fe] dark:hover:bg-[#1b1340fe]  group">
+                            <Link href={"/mail/u/"+ (item.pathAsListed).toLowerCase()} key={index} className="flex mt-0.5 justify-between items-center p-2 text-base font-normal  text-white rounded-lg dark:text-white bg-[#291d58fe] hover:bg-[#1b1340fe] dark:hover:bg-[#1b1340fe]  group">
                                 <span className="ml-3 whitespace-nowrap">{item.pathAsListed}</span>
 
                             </Link>

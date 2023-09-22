@@ -18,6 +18,7 @@ export const staticImapConn = async (currentUser: string) => {
     await client.connect();
     return client
 }
+export const staticImapClient = (user:string)=>staticImapConn(user)
 export const ReadCurrentUserConfig = (currentUser: string) => {
     const data = fs.readFileSync(`${configDir}/${currentUser}.json`, { encoding: 'utf-8' })
     const config = JSON.parse(data)

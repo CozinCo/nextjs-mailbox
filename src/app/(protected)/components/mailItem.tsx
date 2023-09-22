@@ -11,7 +11,7 @@ const MailItem = ({result}:{result:any[]}) => {
     const status = true;
     const isUnread = status ? "font-bold bg-blue-100 hover:bg-blue-200 dark:bg-gray-700 dark:hover:bg-slate-500 " : "font-normal hover:bg-slate-200 bg-[#f5f4f2fe] dark:bg-slate-900 dark:hover:bg-gray-700 "
     return (
-        <ScrollArea className='mt-2 '>
+        <ScrollArea className='mt-2 h-screen rounded-md border"'>
             {
                 result.reverse().map((item, index) => (
                     <Card className={cn(`hover:border-[#291d58fe] dark:hover:border-1 w-full group/item`, isUnread)} key={item.seq} >
@@ -34,7 +34,7 @@ const MailItem = ({result}:{result:any[]}) => {
                         <div className="w-1/5 truncate">
                             <div className="justify-start flex px-4">
                                 <Link
-                                    href={`/mailbox/read/${item.id}`}
+                                    href={`read/${item.id}`}
                                     className="text-base  text-black dark:text-white"
                                 >
                                     

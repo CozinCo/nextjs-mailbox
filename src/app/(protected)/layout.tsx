@@ -19,8 +19,6 @@ const FetchMailBoxList = async () => {
 }
 const layout = async ({ children }: { children: React.ReactNode }) => {
     const { folder } = await FetchMailBoxList()
-
-
     return (
         <div className="relative flex min-h-screen w-full flex-col">
             <div>
@@ -38,9 +36,9 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
             </div>
             <div>
                 <div className="border-t">
-                    <div className="md:grid md:grid-cols-[200px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[200px_minmax(0,1fr)] ">
+                    <div className="md:grid md:grid-cols-[210px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[210px_minmax(0,1fr)] ">
                         <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-[250px] shrink-0 md:sticky md:block">
-                            <ScrollArea className="h-full py-4 pl-2 pr-6 lg:py-4">
+                            <ScrollArea className="h-full py-4 pl-2 px-4 lg:py-4">
                                 <SidebarNav AllFolders={folder} />
                             </ScrollArea>
 

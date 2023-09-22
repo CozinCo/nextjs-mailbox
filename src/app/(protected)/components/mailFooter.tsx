@@ -2,8 +2,10 @@ import React from 'react'
 
 const MailFooter = () => {
   return (
-    <div className="w-screen bottom-0 lg:fixed items-center space-y-4 border-t border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:sticky sm:flex sm:justify-between sm:space-y-0 mt-2">
-    <div className="flex flex-col gap-2">
+    <div className="max-w-screen fixed bottom-0 items-center justify-around space-y-4 border-t border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800  sm:space-y-0 mt-2">
+       
+   
+    <div className="flex-col gap-2">
       <div className="text-xs text-gray-500 dark:text-gray-400">
         0.1 GB of 1 GB used
       </div>
@@ -16,7 +18,7 @@ const MailFooter = () => {
         <div className="w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700 h-1.5">
           <div
             className="flex items-center justify-center rounded-full text-center font-medium leading-none text-blue-100 bg-blue-600 h-1.5"
-            style={{ width: "22%" }}
+            style={{ width: "50%" }}
           />
         </div>
       </div>

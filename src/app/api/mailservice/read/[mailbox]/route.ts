@@ -9,12 +9,14 @@ interface CustomMessageObj extends FetchMessageObject {
 
 export async function GET(req: NextRequest, { params }: { params: { mailbox: string } }) {
 
-    let EmailData: any[] = []
+    try {
+        let EmailData: any[] = []
     const headersInstance = headers()
     const user = headersInstance.get('iauth')!
     const client = await staticImapConn(user)
     if (client.authenticated) {
         let lock = await client.getMailboxLock(params.mailbox);
+       
         // let message = await client.fetchOne("*", { source: true, flags: true, labels: true, internalDate: true });
         const mailsData= client.fetch('1:*', { envelope: true, }) as  AsyncGenerator<CustomMessageObj, never, void> 
         for await (let message of mailsData) {
@@ -25,19 +27,24 @@ export async function GET(req: NextRequest, { params }: { params: { mailbox: str
                 subject: message.envelope.subject,
                 name: message.envelope.from[0].name!,
                 address: message.envelope.from[0].address!,
-            })
-            
+            })            
             EmailData.push(FilterData)
         }
         lock.release()
-
         return NextResponse.json({
-            success: false,
+            success: true,
             message: "MailBox Received",
             result: EmailData
         })
     }
 
+    } catch (error) {
+        return NextResponse.json({
+            success: false,
+            message: "MailBox Received",
+            result: []
+        })
+    }
 
 
 }
