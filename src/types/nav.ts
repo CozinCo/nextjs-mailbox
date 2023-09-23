@@ -1,4 +1,6 @@
 import { Icons } from "@/components/icons"
+import { AddressObject, Attachment, EmailAddress, HeaderValue, ParsedMail } from 'mailparser';
+
 
 export interface SidebarNavProps {
   items: SidebarNavItem[]
@@ -35,11 +37,31 @@ export interface FolderFromApi {
   specialUse: string,
   specialUseSource: string
 }
-export interface MailBoxData   {
+export interface MailBoxData {
   seq: number;
   id: string;
   date: Date;
   subject: string;
   name: string;
   address: string;
+}
+export interface ReadMailResult {
+  // Make sure lock is released, otherwise next `getMailboxLock()` never returns
+  from: {
+    email: string ;   
+    name: string;   
+  };
+  to: {
+    name: AddressObject[] | EmailAddress ;
+    email: AddressObject[] ;
+  };
+  subject: string ;
+  body: string | false;
+  attachments: Attachment[];
+  time: Date | undefined;
+  headers: {
+    threadTopic: HeaderValue | undefined;
+    inReplyTo: HeaderValue | undefined;
+    mimeVersion: HeaderValue | undefined;
+  };
 }

@@ -19,6 +19,7 @@ export default function RootLayout(props: { children: React.ReactNode }): JSX.El
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {props.children}
         </ThemeProvider>
+       
       </body>
     </html>
   );

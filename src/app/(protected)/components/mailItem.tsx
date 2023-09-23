@@ -6,7 +6,7 @@ import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-const MailItem = ({result}:{result:any[]}) => {
+const MailItem = ({result,activeMailbox}:{result:any[],activeMailbox:string}) => {
    
     const status = true;
     const isUnread = status ? "font-bold bg-blue-100 hover:bg-blue-200 dark:bg-gray-700 dark:hover:bg-slate-500 " : "font-normal hover:bg-slate-200 bg-[#f5f4f2fe] dark:bg-slate-900 dark:hover:bg-gray-700 "
@@ -14,7 +14,7 @@ const MailItem = ({result}:{result:any[]}) => {
         <ScrollArea className='mt-2 h-screen rounded-md border"'>
             {
                 result.reverse().map((item, index) => (
-                    <Card className={cn(`hover:border-[#291d58fe] dark:hover:border-1 w-full group/item`, isUnread)} key={item.seq} >
+                    <Card className={cn(`hover:border-[#291d58fe] dark:hover:border-1 w-full group/item`, isUnread)} key={item.id} >
                     <div className="flex flex-wrap lg:space-x-4 md:space-x-4 xl:space-x-4 items-center p-2 xl:px-4 lg:px-4 md:px-4">
                         <div className="lg:w-56 md:w-38 hidden lg:block md:block">
                             <div className="inline-flex justify-between space-x-4">
@@ -34,10 +34,9 @@ const MailItem = ({result}:{result:any[]}) => {
                         <div className="w-1/5 truncate">
                             <div className="justify-start flex px-4">
                                 <Link
-                                    href={`read/${item.id}`}
+                                    href={`${activeMailbox}/read/${item.id}-${item.seq}`}
                                     className="text-base  text-black dark:text-white"
-                                >
-                                    
+                                >                                    
                                     {item.name === "" ? item.address : item.name}
                                 </Link>
                             </div>

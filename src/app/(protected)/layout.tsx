@@ -22,7 +22,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="relative flex min-h-screen w-full flex-col">
             <div>
-                <header className="sticky top-0 z-50 w-full lg:border-b">
+                <header className="sticky top-0 inset-x-0 z-10  w-full lg:border-b">
                     <div className="flex h-16 items-center px-4">
                         <TeamSwitcher />
                         <Header className="mx-6" />

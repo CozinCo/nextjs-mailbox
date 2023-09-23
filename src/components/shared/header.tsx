@@ -1,8 +1,7 @@
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/theme/theme-toggle"
-
+ 
 export function Header({
   className,
   ...props
@@ -19,7 +18,7 @@ export function Header({
       >
         Settings
       </Link>
-      <ThemeToggle className="hidden lg:block md:block" />
+     
     </nav>
   )
 }
