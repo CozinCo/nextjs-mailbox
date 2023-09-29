@@ -1,32 +1,46 @@
 import React from 'react'
 import LeftSidebarItem from './LeftSidebarItem'
-
-const LeftSidbar = ({ open }: { open: boolean }) => {
+import { Button } from '@/components/ui/button'
+import { PopoverMe } from '@/components/common/popover'
+import { Icons } from '@/components/icons'
+import DisplayLeftSidebarCard from '@/components/common/displayCard'
+ 
+const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) => {
     return (
         <div className={`lg:!block ${open ? "hidden" : ""}`}>
             <aside
 
                 className={`flex fixed top-0 left-0 z-20 flex-col flex-shrink-0 pt-16 h-full duration-75 border-r border-gray-200 lg:flex transition-width dark:border-gray-700 ${open ? 'lg:w-64 md:w-60' : 'lg:w-16 md:w-60'}`}
             >
-                <div className="h-full overflow-y-auto overflow-x-hidden rounded   py-4 px-3  bg-transparent">
-                    <div className="flex h-full flex-col justify-between py-2">
-                        <div>
-                            <form className="pb-3 md:hidden">
-                                <div className="flex">
-                                    <div className="relative w-full">
-                                        {/* Search Bar here */}
+                <div className="h-full overflow-y-auto overflow-x-hidden rounded py-4 px-3 bg-transparent">
 
+                    <div className="flex h-full flex-col justify-between py-2">
+                        <div className="pb-3">
+                            <div className="flex">
+                                <div className="relative w-full">
+                                    <div className="inline-flex justify-center items-center">
+                                        <Button className={`py-2 mb-4 mx-4 hidden transition-width bg-blue-500 text-white ${open ? "lg:block md:block" : "px-2"}`} variant={"outline"}>
+                                            New Message
+                                        </Button>
+                                        <span className="py-2 mb-4 dark:text-white text-slate-800 ">
+                                            <PopoverMe content={<h1>Hello Ji</h1>}>
+                                                <Icons.apps />
+                                            </PopoverMe>
+                                        </span>
                                     </div>
                                 </div>
-                            </form>
-                            <div className="" data-testid="sidebar-items">
+                            </div>
+                        </div>
+                        <div>
+
+                            <div>
                                 <ul
                                     className="mt-4 space-y-2 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700"
                                     data-testid="sidebar-item-group"
                                 >
-                                    {Array.from({ length: 8 }).map((_, i) => (
-                                        <LeftSidebarItem key={i} label={i.toString()} open={open} />
-                                    ))}
+                                    {AllFolders.length ? AllFolders.map((folder, i) => (
+                                        <LeftSidebarItem key={i} folder={folder} open={open} />
+                                    )) :<>Something Went Wrong</>}
 
                                 </ul>
                                 <ul
@@ -34,24 +48,29 @@ const LeftSidbar = ({ open }: { open: boolean }) => {
                                     data-testid="flowbite-sidebar-item-group"
                                 >
                                     <li>
-                                        <a
-
-                                            className="flex items-center justify-center rounded-lg p-2 text-base font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                            href=""
-                                        >
-
+                                        <div className="flex mt-0.5 justify-between items-center p-2 mb-2 px-4 text-lg font-semibold tracking-tight">
+                                            <span className="ml-3 whitespace-nowrap">Folders</span>
                                             <span
-                                                className="px-3 flex-1 whitespace-nowrap"
-                                                data-testid="flowbite-sidebar-item-content"
-
+                                                className="inline-flex cursor-pointer justify-end rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                             >
-                                                Docs
+                                                <Icons.add />
                                             </span>
-                                        </a>
+                                        </div>
                                     </li>
 
-
+                                    <li>
+                                        <div className="flex mt-0.5 justify-between items-center p-2 mb-2 px-4 text-lg font-semibold tracking-tight">
+                                            <span className="ml-3 whitespace-nowrap">Labels</span>
+                                            <span
+                                                className="inline-flex cursor-pointer justify-end rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                            >
+                                                <Icons.add />
+                                            </span>
+                                        </div>
+                                    </li>
                                 </ul>
+                                {open && <DisplayLeftSidebarCard />}
+
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-x-5">

@@ -1,55 +1,52 @@
+"use client"
 import React from 'react'
-import { MobileNav } from '@/components/shared/mobile-nav'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import TeamSwitcher from '@/components/shared/team-switcher'
-import { Search } from '@/components/shared/search'
-import { UserNav } from '@/components/shared/user-nav'
-import { SidebarNav } from '@/components/shared/sidebar-nav'
-import SpeedDial from '@/components/common/speedDial'
-import { Header } from '@/components/shared/header'
-import StackedNav from './components/stacked'
 import { fetcher } from '@/lib/fetcher'
+import RightSidebar from './components/RightSidebar';
+import TrialNotice from './components/TrialNotice';
+import LeftSidbar from './components/LeftSidbar';
+import MainHeader from './components/MainHeader';
 
-const FetchMailBoxList = async () => {
-    return await fetcher('/mailservice/folderList', {
-        headers: {
-            "iauth": "mullayam06@outlook.com"
-        }
+import { AllFolders } from '@/types/nav';
+
+
+const layout =  ({ children }: { children: React.ReactNode }) => {
+    const [open, setOpen] = React.useState(true);
+    const [AllFolders, setAllFolders] = React.useState<AllFolders[]>([]);
+
+    const FetchMailBox = async () => {
+        const { folder } = await fetcher('/mailservice/folderList', {
+            headers: {
+                "iauth": "mullayam06@outlook.com"
+            }
+        })
+        setAllFolders(folder)
+        return
+    }
+    React.useEffect(() => {
+        FetchMailBox()
     })
-}
-const layout = async ({ children }: { children: React.ReactNode }) => {
-    const { folder } = await FetchMailBoxList()
     return (
-        <div className="relative flex min-h-screen w-full flex-col">
-            <div>
-                <header className="sticky top-0 inset-x-0 z-10  w-full lg:border-b">
-                    <div className="flex h-16 items-center px-4">
-                        <TeamSwitcher />
-                        <Header className="mx-6" />
-                        <MobileNav />
-                        <div className="ml-auto flex items-center space-x-4">
-                            <Search />
-                            <UserNav />
-                        </div>
-                    </div>
-                </header>
+        <div className="min-h-screen flex flex-col h-screen relative">
+            <div>                
+                <MainHeader open={open} setOpen={setOpen} />
             </div>
-            <div>
-                <div className="border-t">
-                    <div className="md:grid md:grid-cols-[210px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[210px_minmax(0,1fr)] ">
-                        <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-[250px] shrink-0 md:sticky md:block">
-                            <ScrollArea className="h-full py-4 pl-2 px-4 lg:py-4">
-                                <SidebarNav AllFolders={folder} />
-                            </ScrollArea>
+            {/* main container */}
+            <div className="flex-1 flex flex-row overflow-y-hidden pt-16 ">
+                <main className={`flex-1 ${open ? "lg:ml-64 xl:ml-70" : "lg:ml-16 xl:ml-16"} relative w-full duration-75 h-full transition-width  bg-transparent overflow-y-auto `}>
+                    {children}
+                </main>
+                {/* Left Sidebar */}
+                <nav className="order-firs overflow-y-auto ">
+                    <LeftSidbar open={open} AllFolders={AllFolders} />
+                </nav>
 
-                        </aside>
-                        <div className='lg:border-l-2 px-1 max-h-screen'>
-                            {children}
-                            <SpeedDial />
-                        </div>
-                    </div>
-                </div>
+                <aside className="hidden lg:block overflow-y-auto">
+                    <RightSidebar />
+                </aside>
             </div>
+            {/* Screen Notice */}
+
+            <TrialNotice />
         </div>
     )
 }

@@ -11,7 +11,7 @@ const OptionsHeader = () => {
       <div className="flex items-center divide-x divide-gray-100 dark:divide-gray-700">
         <div className="pr-3">
           <Link
-            href={"/mailbox"}
+            href={"/mail"}
             className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <Icons.leftArrow />

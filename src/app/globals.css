@@ -36,7 +36,10 @@
  
     --radius: 0.5rem;
   }
- 
+  .rti--container {
+    --rti-bg: white!important;
+     
+  }
   .dark {
     --logo: url("/logo2-dark.png") no-repeat;
 

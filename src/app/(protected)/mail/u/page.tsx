@@ -1,17 +1,19 @@
 import React from 'react'
-import MailItem from '../../components/mailItem'
+
 import { FetchMailBoxMails } from "@/lib/fetcher";
-import MailHeader from '../../components/mailHeader';
-import MailFooter from '../../components/mailFooter';
+import MailBoxFooter from '../../components/MailBoxFooter'
+import MailBoxHeader from '../../components/MailBoxHeader'
+import MailBoxArea from '../../components/MailBoxArea';
 
 const Page = async ({ params }: { params: { folderName: string } }) => {
-  const { result } = await FetchMailBoxMails(params.folderName)
-  return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <MailHeader />
-      <MailItem result={result} />
-      <MailFooter />
-    </div>)
+    const { result } = await FetchMailBoxMails(params.folderName)
+    return (
+        <React.Fragment>
+            <MailBoxHeader />
+            <MailBoxArea folderName={params.folderName} result={result} />
+            <MailBoxFooter />
+        </React.Fragment>
+    )
 }
 
 export default Page

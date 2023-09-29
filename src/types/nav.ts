@@ -65,3 +65,15 @@ export interface ReadMailResult {
     mimeVersion: HeaderValue | undefined;
   };
 }
+export interface AllFolders  
+    {
+        path: string,
+        pathAsListed: string,
+        flags: Record<string, any>,
+        delimiter: string,
+        listed: boolean,
+        parentPath: string,
+        parent: any[],
+        name: string,
+        subscribed: boolean
+    }
