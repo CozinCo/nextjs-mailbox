@@ -46,16 +46,19 @@ export interface MailBoxData {
   address: string;
 }
 export interface ReadMailResult {
-  // Make sure lock is released, otherwise next `getMailboxLock()` never returns
   from: {
-    email: string ;   
-    name: string;   
+    name: {
+      name:  string;
+      address: string;
+    }
   };
   to: {
-    name: AddressObject[] | EmailAddress ;
-    email: AddressObject[] ;
+    name: {
+      name: string[] | string;
+      address: string[]|string;
+    }
   };
-  subject: string ;
+  subject: string;
   body: string | false;
   attachments: Attachment[];
   time: Date | undefined;
@@ -65,15 +68,14 @@ export interface ReadMailResult {
     mimeVersion: HeaderValue | undefined;
   };
 }
-export interface AllFolders  
-    {
-        path: string,
-        pathAsListed: string,
-        flags: Record<string, any>,
-        delimiter: string,
-        listed: boolean,
-        parentPath: string,
-        parent: any[],
-        name: string,
-        subscribed: boolean
-    }
+export interface AllFolders {
+  path: string,
+  pathAsListed: string,
+  flags: Record<string, any>,
+  delimiter: string,
+  listed: boolean,
+  parentPath: string,
+  parent: any[],
+  name: string,
+  subscribed: boolean
+}

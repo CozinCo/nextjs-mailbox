@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             let lock = await client.getMailboxLock(mailbox);
             let getMessage = await client.fetchOne(id, { source: true, flags: true, labels: true, internalDate: true }) as CustomMessageObj
             let parsed = await simpleParser(getMessage.source);
-
+ 
             emailData.from = {
                 name: parsed?.from?.value[0],
                 email: parsed?.from?.value[1]

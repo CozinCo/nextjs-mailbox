@@ -1,9 +1,12 @@
+"use client";
 import React from 'react'
 import { Header } from '@/components/shared/header'
 import TeamSwitcher from '@/components/shared/team-switcher'
 import { UserNav } from '@/components/shared/user-nav'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Icons } from '@/components/icons'
+import Link from 'next/link'
+import { GetLogo } from '@/lib/utils';
 
 
 const MainHeader = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
@@ -18,13 +21,13 @@ const MainHeader = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<
 
                                 <Icons.fries />
                             </button>
-                            <a className="flex items-center" href="/">
+                            <Link className="flex items-center" href="/">
                                 <img
-                                    alt=""
-                                    src="/logo2-dark.png"
+                                    alt="send-logo"
+                                    src={GetLogo()}
                                     className="mr-3 h-6 sm:h-8"
                                 />
-                            </a>
+                            </Link>
                             <div className="ml-16 hidden md:block">
                                 <div className="flex   items-center px-4">
                                     <TeamSwitcher />

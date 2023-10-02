@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: { mailbox: str
         return NextResponse.json({
             success: true,
             message: "MailBox Received",
-            result: EmailData
+            result: EmailData.reverse()
         })
     }
 

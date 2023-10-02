@@ -8,7 +8,7 @@ import { ServerConfig } from '@/config/mailServer'
 export const configDir = path.join(process.cwd(), 'src', "data")
 
 
-export const SMTP_SERVER_CONFIG = async () => {
+export const SMTP_SERVER_CONFIG = async (currentUser:string) => {
     const data = await ReadCurrentUserConfig(currentUser)
     const transporter = nodemailer.createTransport({
         host: data.smtp_host,

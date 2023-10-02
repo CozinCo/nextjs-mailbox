@@ -9,25 +9,29 @@ import MainHeader from './components/MainHeader';
 import { AllFolders } from '@/types/nav';
 
 
-const layout =  ({ children }: { children: React.ReactNode }) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
     const [open, setOpen] = React.useState(true);
     const [AllFolders, setAllFolders] = React.useState<AllFolders[]>([]);
 
-    const FetchMailBox = async () => {
-        const { folder } = await fetcher('/mailservice/folderList', {
-            headers: {
-                "iauth": "mullayam06@outlook.com"
-            }
-        })
-        setAllFolders(folder)
-        return
-    }
+    const FetchMailBox = React.useCallback(
+        async () => {
+            const { folder } = await fetcher('/mailservice/folderList', {
+                headers: {
+                    "iauth": "mullayam06@outlook.com"
+                }
+            })
+            setAllFolders(folder)
+            return
+        },
+        [],
+    )
+
     React.useEffect(() => {
         FetchMailBox()
-    })
+    },[])
     return (
         <div className="min-h-screen flex flex-col h-screen relative">
-            <div>                
+            <div>
                 <MainHeader open={open} setOpen={setOpen} />
             </div>
             {/* main container */}

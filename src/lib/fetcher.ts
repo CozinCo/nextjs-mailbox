@@ -3,7 +3,8 @@ import { siteConfig } from "@/config/site"
 export const fetcher = async (url: string, options: any = {},): Promise<any> => {
 
     const res = await fetch(`${siteConfig.apiUrl}/api${url}`, {
-        next: { revalidate: 300 },
+        // next: { revalidate: false },
+        cache: 'force-cache' ,
         ...options
     })
     const data = await res.json()
@@ -11,6 +12,7 @@ export const fetcher = async (url: string, options: any = {},): Promise<any> => 
     return data
 }
 export const FetchMailBoxMails = async (mailboxName: string = "inbox") => {
+  
     const response = await fetcher(`/mailservice/get-mailbox-mails/${mailboxName}`, {
       headers: {
         iauth: "mullayam06@outlook.com"

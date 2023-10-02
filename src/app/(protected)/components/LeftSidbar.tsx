@@ -9,7 +9,6 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
     return (
         <div className={`lg:!block ${open ? "hidden" : ""}`}>
             <aside
-
                 className={`flex fixed top-0 left-0 z-20 flex-col flex-shrink-0 pt-16 h-full duration-75 border-r border-gray-200 lg:flex transition-width dark:border-gray-700 ${open ? 'lg:w-64 md:w-60' : 'lg:w-16 md:w-60'}`}
             >
                 <div className="h-full overflow-y-auto overflow-x-hidden rounded py-4 px-3 bg-transparent">
@@ -49,7 +48,7 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
                                 >
                                     <li>
                                         <div className="flex mt-0.5 justify-between items-center p-2 mb-2 px-4 text-lg font-semibold tracking-tight">
-                                            <span className="ml-3 whitespace-nowrap">Folders</span>
+                                            {open && <span className="ml-3 whitespace-nowrap">Folders</span>}
                                             <span
                                                 className="inline-flex cursor-pointer justify-end rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                             >
@@ -60,7 +59,7 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
 
                                     <li>
                                         <div className="flex mt-0.5 justify-between items-center p-2 mb-2 px-4 text-lg font-semibold tracking-tight">
-                                            <span className="ml-3 whitespace-nowrap">Labels</span>
+                                        {open && <span className="ml-3 whitespace-nowrap">Labels</span>}
                                             <span
                                                 className="inline-flex cursor-pointer justify-end rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                             >
