@@ -58,7 +58,7 @@ const groups = [
     ],
   },
   {
-    label: "Teams",
+    label: "Accounts",
     teams: [
       {
         label: "Acme Inc.",
@@ -76,9 +76,9 @@ type Team = (typeof groups)[number]["teams"][number]
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface TeamSwitcherProps extends PopoverTriggerProps {}
+interface AccountSwitcherProps extends PopoverTriggerProps {}
 
-export default function TeamSwitcher({ className }: TeamSwitcherProps) {
+export default function AccountSwitcher({ className }: AccountSwitcherProps) {
   const [open, setOpen] = React.useState(false)
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -111,7 +111,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           <Command>
             <CommandList>
               <CommandInput placeholder="Search team..." />
-              <CommandEmpty>No team found.</CommandEmpty>
+              <CommandEmpty>No Account found.</CommandEmpty>
               {groups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
                   {group.teams.map((team) => (
@@ -156,7 +156,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                     }}
                   >
                     <PlusCircledIcon className="mr-2 h-5 w-5" />
-                    Create Team
+                    Add New Account
                   </CommandItem>
                 </DialogTrigger>
               </CommandGroup>
@@ -166,16 +166,16 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
       </Popover>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create team</DialogTitle>
+          <DialogTitle>New Account</DialogTitle>
           <DialogDescription>
-            Add a new team to manage products and customers.
+            Add a new Account to manage all at once.
           </DialogDescription>
         </DialogHeader>
         <div>
           <div className="space-y-4 py-2 pb-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Team name</Label>
-              <Input id="name" placeholder="Acme Inc." />
+              <Label htmlFor="name">Email Address</Label>
+              <Input id="email" type="email" placeholder="mail@yourdomain.com" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="plan">Subscription plan</Label>

@@ -13,10 +13,7 @@ const theme = {
    
 }
 
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
+ 
 function MyCustomAutoFocusPlugin() {
   const [editor] = useLexicalComposerContext();
 
@@ -28,9 +25,7 @@ function MyCustomAutoFocusPlugin() {
   return null;
 }
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
+ 
 function onError(error:any) {
   console.error(error);
 }
@@ -54,3 +49,4 @@ function Editor() {
     </LexicalComposer>
   );
 }
+export default Editor;

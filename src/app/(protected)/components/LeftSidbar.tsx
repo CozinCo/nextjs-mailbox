@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button'
 import { PopoverMe } from '@/components/common/popover'
 import { Icons } from '@/components/icons'
 import DisplayLeftSidebarCard from '@/components/common/displayCard'
- 
+import { useRouter } from 'next/navigation'
+
 const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) => {
+    const router = useRouter()
     return (
         <div className={`lg:!block ${open ? "hidden" : ""}`}>
             <aside
@@ -18,7 +20,7 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
                             <div className="flex">
                                 <div className="relative w-full">
                                     <div className="inline-flex justify-center items-center">
-                                        <Button className={`py-2 mb-4 mx-4 hidden transition-width bg-blue-500 text-white ${open ? "lg:block md:block" : "px-2"}`} variant={"outline"}>
+                                        <Button onClick={() => router.push('/mail/u/compose')} className={`py-2 mb-4 mx-4 hidden transition-width bg-blue-500 text-white ${open ? "lg:block md:block" : "px-2"}`} variant={"outline"}>
                                             New Message
                                         </Button>
                                         <span className="py-2 mb-4 dark:text-white text-slate-800 ">
@@ -39,7 +41,7 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
                                 >
                                     {AllFolders.length ? AllFolders.map((folder, i) => (
                                         <LeftSidebarItem key={i} folder={folder} open={open} />
-                                    )) :<>Something Went Wrong</>}
+                                    )) : <>Something Went Wrong</>}
 
                                 </ul>
                                 <ul
@@ -59,7 +61,7 @@ const LeftSidbar = ({ open, AllFolders }: { open: boolean, AllFolders: any[] }) 
 
                                     <li>
                                         <div className="flex mt-0.5 justify-between items-center p-2 mb-2 px-4 text-lg font-semibold tracking-tight">
-                                        {open && <span className="ml-3 whitespace-nowrap">Labels</span>}
+                                            {open && <span className="ml-3 whitespace-nowrap">Labels</span>}
                                             <span
                                                 className="inline-flex cursor-pointer justify-end rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                             >

@@ -15,7 +15,7 @@ const MailReceivedItem = ({ folderName, result }: { folderName: string, result: 
                 data-testid="table-row-element"
                 className="hover:bg-gray-50 bg-transparent dark:hover:bg-gray-600"
             >
-                <td className="px-6 py-4 w-4 p-4">
+                <td className="px-6 py-2 w-4 p-4">
                     <div className="inline-flex items-center space-x-4">
                         <div>
                             <input
@@ -36,7 +36,7 @@ const MailReceivedItem = ({ folderName, result }: { folderName: string, result: 
                         </div>
                     </div>
                 </td>
-                <td className="px-6 py-4 relative flex items-center space-x-4 whitespace-nowrap p-4">
+                <td className="px-6 py-2 relative flex items-center space-x-4 whitespace-nowrap p-4">
                    
                     <Link
                         href={`${folderName}/read/${item.id}-${item.seq}`}
@@ -46,10 +46,10 @@ const MailReceivedItem = ({ folderName, result }: { folderName: string, result: 
                     </Link>
                 </td>
               
-                <td className="px-6 py-4 max-w-sm overflow-hidden truncate p-4 text-base font-semibold text-gray-900 dark:text-white xl:max-w-screen-md 2xl:max-w-screen-lg">
+                <td className="px-6 py-2 max-w-sm overflow-hidden truncate p-4 text-base font-semibold text-gray-900 dark:text-white xl:max-w-screen-md 2xl:max-w-screen-lg">
                    {item.subject}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
+                <td className="px-6 py-2 whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
                    {dateToFromNowDaily(item.date)}
                 </td>
             </tr>

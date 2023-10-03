@@ -12,7 +12,7 @@ export function Spinner({ children, h = 12 }: SpinnerProps) {
           <span className="text-white">{children}</span>
         ) : (
           <div
-            className={`h-${h} w-${h} animate-spin rounded-full border-4 border-gray-100 border-t-transparent`}
+            className={`h-${h} w-${h} animate-spin rounded-full border-4 border-rose-600 border-t-transparent`}
           ></div>
         )}
       </div>

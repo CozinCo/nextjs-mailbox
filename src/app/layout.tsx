@@ -18,8 +18,7 @@ export default function RootLayout(props: { children: React.ReactNode }): JSX.El
         <Toaster />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {props.children}
-        </ThemeProvider>
-       
+        </ThemeProvider>       
       </body>
     </html>
   );

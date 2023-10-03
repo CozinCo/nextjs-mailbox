@@ -3,7 +3,7 @@ import React from "react"
 export default function OfferBbanner() {
   return (
     <section className="">
-      <div className="alert alert-dismissible fade show items-center justify-between rounded-lg bg-red-500 px-6 py-4 text-center text-white md:flex md:text-left">
+      <div className="alert alert-dismissible fade show items-center justify-between  bg-red-500 px-6 py-4 text-center text-white md:flex md:text-left">
         <div className="mb-4 flex flex-wrap items-center justify-center md:mb-0 md:justify-start">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,8 +28,8 @@ export default function OfferBbanner() {
           >
             Claim offer
           </a>
-          <a
-            href=""
+          <span
+           
             className="text-white"
             data-bs-dismiss="alert"
             aria-label="Close"
@@ -45,7 +45,7 @@ export default function OfferBbanner() {
                 d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
               ></path>
             </svg>
-          </a>
+          </span>
         </div>
       </div>
     </section>

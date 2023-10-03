@@ -37,6 +37,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { ScrollArea } from "../ui/scroll-area"
 
 const users = [
   {
@@ -105,6 +106,7 @@ export function CardsChat() {
             <div>
               <p className="text-sm font-medium leading-none">Sofia Davis</p>
               <p className="text-sm text-muted-foreground">m@example.com</p>
+              <div className="text-xs text-gray-400">Online</div>
             </div>
           </div>
           <TooltipProvider delayDuration={0}>
@@ -125,20 +127,22 @@ export function CardsChat() {
           </TooltipProvider>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {messages.map((message, index) => (
+          <div className="-mr-4">
+           <ScrollArea className="h-80">
+           {messages.map((message, index) => (
               <div
                 key={index}
                 className={cn(
-                  "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                  "flex w-max max-w-[75%] flex-col gap-2 rounded-lg my-2 px-3 py-2 text-sm",
                   message.role === "user"
-                    ? "ml-auto bg-primary text-primary-foreground"
+                    ? "ml-auto dark:bg-cyan-300 bg-slate-800 text-primary-foreground"
                     : "bg-muted"
                 )}
               >
                 {message.content}
               </div>
             ))}
+           </ScrollArea>
           </div>
         </CardContent>
         <CardFooter>

@@ -7,6 +7,11 @@ import LeftSidbar from './components/LeftSidbar';
 import MainHeader from './components/MainHeader';
 
 import { AllFolders } from '@/types/nav';
+import BackgroundLayer from '@/components/common/backgroundlayer';
+import LoadingOverlay from '@/components/common/loadingOverlay';
+import OfferBbanner from '@/components/common/offer-banner';
+import { Spinner } from '@/components/common/spinner';
+import ChatBox from '@/components/shared/chatBox';
 
 
 const layout = ({ children }: { children: React.ReactNode }) => {
@@ -28,15 +33,21 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
     React.useEffect(() => {
         FetchMailBox()
-    },[])
+    }, [])
     return (
         <div className="min-h-screen flex flex-col h-screen relative">
+            <BackgroundLayer />
+            {/* <Spinner /> */}
+            {/* <LoadingOverlay/>  */}
             <div>
+
                 <MainHeader open={open} setOpen={setOpen} />
             </div>
             {/* main container */}
             <div className="flex-1 flex flex-row overflow-y-hidden pt-16 ">
                 <main className={`flex-1 ${open ? "lg:ml-64 xl:ml-70" : "lg:ml-16 xl:ml-16"} relative w-full duration-75 h-full transition-width  bg-transparent overflow-y-auto `}>
+                    {/* <OfferBbanner/> */}
+
                     {children}
                 </main>
                 {/* Left Sidebar */}
@@ -49,6 +60,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 </aside>
             </div>
             {/* Screen Notice */}
+            <ChatBox />
 
             <TrialNotice />
         </div>

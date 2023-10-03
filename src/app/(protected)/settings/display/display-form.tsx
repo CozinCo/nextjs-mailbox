@@ -15,32 +15,48 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { toast } from "@/components/ui/use-toast"
-
+import { toast } from "@/hooks/use-toast"
+ 
 const items = [
   {
-    id: "recents",
-    label: "Recents",
+    id: "folders",
+    label: "Folders",
   },
   {
-    id: "home",
-    label: "Home",
+    id: "labels",
+    label: "Labels",
   },
   {
     id: "applications",
     label: "Applications",
   },
   {
-    id: "desktop",
-    label: "Desktop",
+    id: "account-switcher",
+    label: "Account Switcher",
   },
   {
-    id: "downloads",
-    label: "Downloads",
+    id: "right-sidebar",
+    label: "Right Sidebar",
   },
   {
-    id: "documents",
-    label: "Documents",
+    id: "branding",
+    label: "Branding",
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+  },
+  {
+    id: "store",
+    label: "Analytics",
+  },
+  {
+    id: "store",
+    label: "Space",
+  },
+  {
+    id: "messages",
+    label: "Messages",
   },
 ] as const
 

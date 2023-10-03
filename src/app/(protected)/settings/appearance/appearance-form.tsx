@@ -17,16 +17,17 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "@/hooks/use-toast"
+import { useTheme } from "next-themes"
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
     required_error: "Please select a theme.",
   }),
-  font: z.enum(["inter", "manrope", "system"], {
-    invalid_type_error: "Select a font",
-    required_error: "Please select a font.",
-  }),
+  // font: z.enum(["inter", "manrope", "system"], {
+  //   invalid_type_error: "Select a font",
+  //   required_error: "Please select a font.",
+  // }),
 })
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
@@ -37,26 +38,26 @@ const defaultValues: Partial<AppearanceFormValues> = {
 }
 
 export function AppearanceForm() {
+  const { setTheme } = useTheme()
+
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   })
 
   function onSubmit(data: AppearanceFormValues) {
+    setTheme(data.theme)
+    window.localStorage.setItem("theme", data.theme)     
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "Appearance Settings Saved",
+
     })
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
+        {/* <FormField
           control={form.control}
           name="font"
           render={({ field }) => (
@@ -84,7 +85,7 @@ export function AppearanceForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="theme"

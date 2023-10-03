@@ -1,12 +1,13 @@
 "use client";
 import React from 'react'
-import { Header } from '@/components/shared/header'
-import TeamSwitcher from '@/components/shared/team-switcher'
+
+import AccountSwitcher from '@/components/shared/account-switcher'
 import { UserNav } from '@/components/shared/user-nav'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Icons } from '@/components/icons'
 import Link from 'next/link'
 import { GetLogo } from '@/lib/utils';
+import { Search } from '@/components/shared/search';
 
 
 const MainHeader = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
@@ -29,10 +30,17 @@ const MainHeader = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<
                                 />
                             </Link>
                             <div className="ml-16 hidden md:block">
-                                <div className="flex   items-center px-4">
-                                    <TeamSwitcher />
-                                    <Header className="mx-6" />
-                                </div></div>
+                                <div className="flex items-center px-4">
+                                    <AccountSwitcher />
+                                    <Link
+                                        href="/settings"
+                                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary hidden lg:block md:block px-4"
+                                    >
+                                        Settings
+                                    </Link>
+                                    <Search/>
+                                </div>
+                            </div>
                         </div>
                         <div className="flex items-center lg:gap-3 ">
                             <div className="flex items-center">

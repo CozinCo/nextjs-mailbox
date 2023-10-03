@@ -4,20 +4,36 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { DismissModalContext } from '@/components/modal/modal';
 import { TagsInput } from "react-tag-input-component";
-import { SendMail } from '@/lib/fetcher';
-
+import { SendMail } from '@/lib/fetcher'
+import moment from 'moment';
+import { toast } from '@/hooks/use-toast';
+ 
 export default function ComposeCard() {
     const { onDismiss } = React.useContext(DismissModalContext);
     const [selected, setSelected] = React.useState<string[]>([]);
+     
 
-    const handleSendButtonClick = async () => {
-        const SendData= {
+    const handleSendButtonClick = async () => {     
+        const SendData = {
             "subject": (document.getElementById("subject") as HTMLInputElement).value,
             "message": (document.getElementById("message") as HTMLTextAreaElement).value,
             "recipients": selected
         }
-     const {data} = await    SendMail(SendData)
-         
+        const { data } = await SendMail(SendData)
+        if (!data.success) {
+            toast({
+                variant: "destructive",
+                title: data.message,
+
+            })
+            return
+        }
+        onDismiss()
+        return toast({
+            variant: "default",
+            title: "Message sent",
+            description: moment(new Date()).format('MMMM Do YYYY,[at] h:mm:ss'),
+        });
     }
     return (
         <>
@@ -38,7 +54,7 @@ export default function ComposeCard() {
                     <circle cx={8} cy={4} r=".5" fill="none" />
                 </svg>
                 <div className="[&>:first-child]:mt-0 [&>:last-child]:mb-0">
-                    <p>
+                    <p>In Trial Mode, you can send up to 100 emails per day. 
                         Before you can make requests to the SEND, you will need to grab
                         your API key from your dashboard.
                     </p>
@@ -60,12 +76,12 @@ export default function ComposeCard() {
                         <div className="">
                             <a className="text-2xl text-white font-bold   hover:text-gray-600" href="#"> Send a message to your friend developers</a>
                             <div className="grid w-full gap-2 mt-2">
-                                <TagsInput 
+                                <TagsInput
                                     value={selected}
                                     onChange={setSelected}
                                     name="fruits"
                                     classNames={{
-                                        input: "flex w-full rounded-md border border-input px-3 text-sm bg-transparent placeholder:text-white dark:text-white text-gray-100  disabled:cursor-not-allowed disabled:opacity-50",
+                                        input: "flex w-full rounded-md border border-input px-3 text-sm bg-transparent dark:placeholder:text-slate-900 dark:text-slate-900  text-black  disabled:cursor-not-allowed disabled:opacity-50",
                                         tag: "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 text-sm  cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
                                     }}
                                     placeHolder="To Email"
@@ -73,12 +89,12 @@ export default function ComposeCard() {
 
                                 <Input type="text" id='subject' placeholder="Subject" />
                                 <Textarea id='message' placeholder="Type your message here." rows={18} />
-
+                                    
                             </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">
                             <button
-                            onClick={handleSendButtonClick}
+                                onClick={handleSendButtonClick}
                                 type="button"
                                 className="inline-flex gap-0.5 justify-center overflow-hidden text-normal text-white transition bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
                             >

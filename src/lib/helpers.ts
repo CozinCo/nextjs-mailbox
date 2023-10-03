@@ -12,8 +12,8 @@ export const SMTP_SERVER_CONFIG = async (currentUser:string) => {
     const data = await ReadCurrentUserConfig(currentUser)
     const transporter = nodemailer.createTransport({
         host: data.smtp_host,
-        port: 587,
-        secure: true,
+        port: data.smtp_port,
+        secure: data.secure,
         auth: { user: data.user, pass: data.password },
     });
     return transporter
@@ -23,7 +23,7 @@ export const staticImapConn = async (currentUser: string) => {
     const client = new ImapFlow({
         logger: false,
         host: data.imap_host,
-        port: 993,
+        port: data.imap_port,
         secure: true,
         auth: { user: data.user, pass: data.password },
     });
