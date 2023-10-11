@@ -8,11 +8,11 @@ interface CustomMessageObj extends FetchMessageObject {
 }
 
 export async function GET(req: NextRequest, { params }: { params: { mailbox: string } }) {
-
     try {
         let EmailData: any[] = []
     const headersInstance = headers()
     const user = headersInstance.get('iauth')!
+    
     const client = await staticImapConn(user)
     if (client.authenticated) {
         let lock = await client.getMailboxLock(params.mailbox);
@@ -39,6 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: { mailbox: str
     }
 
     } catch (error) {
+      
         return NextResponse.json({
             success: false,
             message: "MailBox Received",

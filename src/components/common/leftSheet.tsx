@@ -6,8 +6,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ScrollArea } from "../ui/scroll-area"
+import { useAuth } from "@/hooks/useAuth"
 
 export function ChatsList({ children }: { children: React.ReactNode }) {
+  const ctx =  useAuth()
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -49,7 +51,7 @@ export function ChatsList({ children }: { children: React.ReactNode }) {
               </div>
               <ScrollArea className="h-96">
                 <div className="flex flex-col space-y-1 mt-4 -mx-2 px-2">
-                  <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
+                  <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2" onClick={() => ctx?.setOpenChatBox(!ctx?.openChatBox)}>
                     <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
                       H
                     </div>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 
 // updated
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/common/spinner";
- 
+import Cookies from 'js-cookie';
+import SideAlert from "@/components/alerts/sidealert";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> { }
 
 
@@ -21,16 +22,12 @@ export function UserAuthForm({
   props?: UserAuthFormProps;
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams()
-  let callbackURL = "/";
-  if (searchParams.has("redirect")) {
-    callbackURL = `${searchParams.get("redirect")}`;
-  }
+
   const [isLoading, setIsLoading] = React.useState(false);
-  const [disabled, setDisabled] = React.useState(false);
+  const [showSetupButton, setShowSetupButton] = React.useState(true);
+  const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 
-
-
+   
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
@@ -38,23 +35,51 @@ export function UserAuthForm({
       const AuthCredentials = {
         email: (document.getElementById("email")! as HTMLInputElement).value,
         password: (document.getElementById("password")! as HTMLInputElement).value,
-      }   
-      if (AuthCredentials.email === "" || AuthCredentials.password === "") {
+      }
+
+      if (AuthCredentials.email === "") {
         (document.getElementById("email")! as HTMLInputElement).focus()
         toast({
-          title: "Something went wrong",
-          description: "data.message",
+          title: "Email Field is Empty",
+          description: "Please Enter Email",
+          variant: "destructive",
+        })
+        return;
+      }
+      if (emailRegex.test(AuthCredentials.email) === false) {
+        (document.getElementById("email")! as HTMLInputElement).focus()
+        toast({
+          title: "Invalid Email",
+          description: "Please Enter Valid Email",
+          variant: "destructive",
+        })
+        return;
+
+      }
+      if (AuthCredentials.password === "") {
+        (document.getElementById("password")! as HTMLInputElement).focus()
+        toast({
+          title: "Password Field is Empty",
+          description: "Please Enter Password",
           variant: "destructive",
         })
         return;
       }
       const response = await fetch('/api/signin', { method: 'POST', body: JSON.stringify(AuthCredentials) });
       const data = await response.json();
-      if (data.success) {
-        console.log("first")
-        router.push("/mailbox")
-        window.localStorage.setItem("iauth", AuthCredentials.email);
+      if (!data.success) {
+        setShowSetupButton(true)
+        toast({
+          title: "Authentication Failed",
+          description:data.message,
+          variant: "default",
+        })
+        return;
       }
+      const Data = JSON.stringify({ email: AuthCredentials.email, name: "Mullayam" })
+      router.push("/mail/u")
+      window.localStorage.setItem("iauth", Data);
+      Cookies.set('iauth', Data)
     } catch (error: any) {
       toast({
         title: "Something went wrong",
@@ -74,18 +99,7 @@ export function UserAuthForm({
   }
 
   React.useEffect(() => {
-    let retry = true;
-    if (retry) {
-      setInterval(() => {
-        const redirect = window.localStorage.getItem("redirect") || null;
-        if (redirect) {
-          setIsLoading(false)
-          retry = false;
-          router.push(callbackURL);
-          window.localStorage.removeItem("redirect");
-        }
-      }, 5000);
-    }
+
     const down = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsLoading(false)
@@ -93,7 +107,7 @@ export function UserAuthForm({
     };
 
     return () => document.removeEventListener("keydown", down);
-  }, [callbackURL, router]);
+  }, [router]);
 
   return (
     <>
@@ -104,6 +118,7 @@ export function UserAuthForm({
         className={cn("grid gap-6 p-4", className)}
         {...props}
       >
+        {/* <CardWithForm/> */}
         <div className="flex flex-col space-y-4">
           <div className="grid gap-2">
             <Label htmlFor="email" className="sr-only">
@@ -130,12 +145,14 @@ export function UserAuthForm({
 
             />
           </div>
-          <Button type="submit" disabled={disabled}>
+          <Button type="submit">
             Sign In
           </Button>
         </div>
       </form>
-
+     { showSetupButton &&  <SideAlert text="Setup New Account" handleClickChange={() => router.push("/handler/setup")} />}      
+     
+       
     </>
   );
 }

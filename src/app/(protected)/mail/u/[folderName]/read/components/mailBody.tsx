@@ -1,9 +1,12 @@
 import { ReadMailResult } from '@/types/nav'
 import React from 'react'
 
-const MailBody = ({ body }: { body: ReadMailResult["body"] }) => {
-  const markup = { __html: body || '<h1>Loading Data ..</h1>' };
-return <div dangerouslySetInnerHTML={markup} />;
+const MailBody = ({ body, text }: { text: ReadMailResult["textasHtml"], body: ReadMailResult["body"] }) => { 
+  const markup = { __html: '<pre>' + text + '</pre>' };
+  if (!body) {
+    return <div dangerouslySetInnerHTML={markup} />;
+  }
+  return <div dangerouslySetInnerHTML={{ __html: body }} />;
 }
 
 export default MailBody

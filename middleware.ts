@@ -22,7 +22,7 @@ declare module "next" {
 export async function middleware(request: NextRequest) {
   const headersInstance = headers()
   const user = headersInstance.get('iauth')!
-  console.log(user,"mdidlwerare")
+   
   if (!user) {
     return new NextResponse(JSON.stringify({
       success: false,

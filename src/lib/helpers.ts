@@ -1,19 +1,22 @@
 import fs from 'fs'
 import path from 'path'
-import imap from 'imap'
+ 
 import { ImapFlow } from 'imapflow';
 import nodemailer from "nodemailer";
 
 import { ServerConfig } from '@/config/mailServer'
 export const configDir = path.join(process.cwd(), 'src', "data")
+const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 
-
+export function validateEmail(email:string) {
+    return emailRegex.test(email);
+  }
 export const SMTP_SERVER_CONFIG = async (currentUser:string) => {
     const data = await ReadCurrentUserConfig(currentUser)
     const transporter = nodemailer.createTransport({
-        host: data.smtp_host,
-        port: data.smtp_port,
-        secure: data.secure,
+        host: String(data.smtp_host),
+        port: Number(data.smtp_port),
+        secure:Boolean(data.secure),         
         auth: { user: data.user, pass: data.password },
     });
     return transporter

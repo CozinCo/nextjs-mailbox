@@ -1,17 +1,18 @@
-import { Terminal, Waves } from "lucide-react"
-
+ 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { cn } from "@/lib/utils"
 
 export default function Alerts({
   title = "Heads up!",
   info = "Pass information ",
+  className = "bg-red-400",
 }: {
   title?: string
   info?: string
+  className?: string
 }) {
   return (
-    <Alert className="bg-red-400">
-      <Terminal className="h-4 w-4" />
+    <Alert className={className}>      
       <AlertTitle className="text-white">{title}</AlertTitle>
       <AlertDescription className="font-semibold text-black">
         {info}

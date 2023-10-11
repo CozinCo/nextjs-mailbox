@@ -76,9 +76,11 @@ type Team = (typeof groups)[number]["teams"][number]
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface AccountSwitcherProps extends PopoverTriggerProps {}
+interface AccountSwitcherProps extends PopoverTriggerProps {
+  ctx:any
+}
 
-export default function AccountSwitcher({ className }: AccountSwitcherProps) {
+export default function AccountSwitcher({ className,ctx }: AccountSwitcherProps) {
   const [open, setOpen] = React.useState(false)
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -125,7 +127,7 @@ export default function AccountSwitcher({ className }: AccountSwitcherProps) {
                     >
                       <Avatar className="mr-2 h-5 w-5">
                         <AvatarImage
-                          src={`https://avatar.vercel.sh/${team.value}.png`}
+                          src={``}
                           alt={team.label}
                           className="grayscale"
                         />

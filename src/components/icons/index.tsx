@@ -284,7 +284,7 @@ export const Icons = {
       fill="currentColor"
       strokeWidth={0}
       viewBox="0 0 20 20"
-      className="text-2xl"
+      className="text-xl text-red-400 hover:text-red-500"
       height="1em"
       width="1em"
       xmlns="http://www.w3.org/2000/svg"
@@ -457,6 +457,23 @@ export const Icons = {
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       ></path>
     </svg>
+  ),
+  info: ({ size = "xl" }: { size?: string }) => (
+    <svg
+  viewBox="0 0 16 16"
+  aria-hidden="true"
+  className="mt-1 h-4 w-4 flex-none fill-emerald-500 stroke-white dark:fill-emerald-200/20 dark:stroke-emerald-200"
+>
+  <circle cx={8} cy={8} r={8} strokeWidth={0} />
+  <path
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      d="M6.75 7.75h1.5v3.5"
+  />
+  <circle cx={8} cy={4} r=".5" fill="none" />
+</svg>
   ),
   
 }

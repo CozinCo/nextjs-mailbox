@@ -54,6 +54,7 @@
     "imap": "^0.8.19",
     "imapflow": "^1.0.144",
     "jotai": "^2.4.1",
+    "js-cookie": "^3.0.5",
     "lexical": "^0.12.2",
     "lucide-react": "^0.274.0",
     "mailboxjs": "^1.0.2",
@@ -78,6 +79,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/imap": "^0.8.37"
+    "@types/imap": "^0.8.37",
+    "@types/js-cookie": "^3.0.4"
   }
 }

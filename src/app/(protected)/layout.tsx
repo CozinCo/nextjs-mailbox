@@ -7,22 +7,24 @@ import LeftSidbar from './components/LeftSidbar';
 import MainHeader from './components/MainHeader';
 
 import { AllFolders } from '@/types/nav';
-import BackgroundLayer from '@/components/common/backgroundlayer';
-import LoadingOverlay from '@/components/common/loadingOverlay';
-import OfferBbanner from '@/components/common/offer-banner';
-import { Spinner } from '@/components/common/spinner';
+import BackgroundLayer from '@/components/common/backgroundlayer'
+import OfferBbanner from '@/components/common/offer-banner'; 
 import ChatBox from '@/components/shared/chatBox';
+import { useAuth } from '@/hooks/useAuth';
+import { IUser } from '@/context/AuthContext';
 
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     const [open, setOpen] = React.useState(true);
+    const ctx = useAuth()
+    const iauth =  JSON.parse(localStorage.getItem("iauth")!) as IUser  
+     
     const [AllFolders, setAllFolders] = React.useState<AllFolders[]>([]);
-
     const FetchMailBox = React.useCallback(
         async () => {
             const { folder } = await fetcher('/mailservice/folderList', {
                 headers: {
-                    "iauth": "mullayam06@outlook.com"
+                    iauth:iauth.email
                 }
             })
             setAllFolders(folder)
@@ -30,18 +32,16 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         },
         [],
     )
-
+console.log(ctx?.loader)
     React.useEffect(() => {
         FetchMailBox()
     }, [])
     return (
         <div className="min-h-screen flex flex-col h-screen relative">
             <BackgroundLayer />
-            {/* <Spinner /> */}
-            {/* <LoadingOverlay/>  */}
+            
             <div>
-
-                <MainHeader open={open} setOpen={setOpen} />
+                <MainHeader open={open} setOpen={setOpen}  ctx={ctx}/>
             </div>
             {/* main container */}
             <div className="flex-1 flex flex-row overflow-y-hidden pt-16 ">
@@ -60,7 +60,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 </aside>
             </div>
             {/* Screen Notice */}
-            <ChatBox />
+            {ctx?.openChatBox && <ChatBox closeChatBox={ctx}/>}
+            
 
             <TrialNotice />
         </div>

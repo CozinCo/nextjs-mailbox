@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { AuthContextProvider } from "@/context/AuthContext";
 const CalSans = localFont({ src: '../assets/fonts/CalSans-SemiBold.woff2', variable: '--font-cal-sans', fallback: ["--font-inter"] });
 
 
@@ -17,7 +18,9 @@ export default function RootLayout(props: { children: React.ReactNode }): JSX.El
       <body className={CalSans.variable}>
         <Toaster />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {props.children}
+        <AuthContextProvider>
+        {props.children}
+        </AuthContextProvider>         
         </ThemeProvider>       
       </body>
     </html>

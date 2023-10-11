@@ -7,33 +7,56 @@ import { TagsInput } from "react-tag-input-component";
 import { SendMail } from '@/lib/fetcher'
 import moment from 'moment';
 import { toast } from '@/hooks/use-toast';
- 
+import { useAuth } from '@/hooks/useAuth';
+import { validateEmail } from '@/lib/helpers';
+
 export default function ComposeCard() {
     const { onDismiss } = React.useContext(DismissModalContext);
     const [selected, setSelected] = React.useState<string[]>([]);
-     
 
-    const handleSendButtonClick = async () => {     
+
+
+
+    const ctx = useAuth()
+    const handleEnterCapture = React.useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+        if (document.activeElement !== event.target) {
+            const enterKeyEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                code: 'Enter',
+                which: 13,
+                keyCode: 13,
+                charCode: 13,
+                bubbles: true,
+            });
+            event.target.dispatchEvent(enterKeyEvent);
+
+
+
+        }
+    }, []);
+    const handleSendButtonClick = async () => {
         const SendData = {
             "subject": (document.getElementById("subject") as HTMLInputElement).value,
             "message": (document.getElementById("message") as HTMLTextAreaElement).value,
             "recipients": selected
         }
-        const { data } = await SendMail(SendData)
-        if (!data.success) {
-            toast({
-                variant: "destructive",
-                title: data.message,
+        const data = await SendMail(SendData, ctx?.user?.email!)
+       
+        if (data.success) {
+            onDismiss()
+            return toast({
+                variant: "default",
+                title: "Message sent",
+                description: moment(new Date()).format('MMMM Do YYYY,[at] h:mm:ss'),
+            });
 
-            })
-            return
         }
-        onDismiss()
-        return toast({
-            variant: "default",
-            title: "Message sent",
-            description: moment(new Date()).format('MMMM Do YYYY,[at] h:mm:ss'),
-        });
+        toast({
+            variant: "destructive",
+            title: data.message,
+
+        })
+        return
     }
     return (
         <>
@@ -54,7 +77,7 @@ export default function ComposeCard() {
                     <circle cx={8} cy={4} r=".5" fill="none" />
                 </svg>
                 <div className="[&>:first-child]:mt-0 [&>:last-child]:mb-0">
-                    <p>In Trial Mode, you can send up to 100 emails per day. 
+                    <p>In Trial Mode, you can send up to 100 emails per day.
                         Before you can make requests to the SEND, you will need to grab
                         your API key from your dashboard.
                     </p>
@@ -79,7 +102,8 @@ export default function ComposeCard() {
                                 <TagsInput
                                     value={selected}
                                     onChange={setSelected}
-                                    name="fruits"
+                                    onBlur={handleEnterCapture}
+                                    name="recipients"
                                     classNames={{
                                         input: "flex w-full rounded-md border border-input px-3 text-sm bg-transparent dark:placeholder:text-slate-900 dark:text-slate-900  text-black  disabled:cursor-not-allowed disabled:opacity-50",
                                         tag: "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 text-sm  cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
@@ -89,7 +113,7 @@ export default function ComposeCard() {
 
                                 <Input type="text" id='subject' placeholder="Subject" />
                                 <Textarea id='message' placeholder="Type your message here." rows={18} />
-                                    
+
                             </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">
@@ -119,7 +143,7 @@ export default function ComposeCard() {
                             <div>
                                 <span className="flex items-center">
                                     <img className="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar" />
-                                    <h1 className="text-white font-bold">Khatab wedaa</h1>
+                                    <h1 className="text-white font-bold">{ctx?.user?.name}</h1>
                                 </span>
                             </div>
                         </div>

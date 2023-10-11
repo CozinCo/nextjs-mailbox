@@ -60,6 +60,7 @@ export interface ReadMailResult {
   };
   subject: string;
   body: string | false;
+  textAsHtml: string ;
   attachments: Attachment[];
   time: Date | undefined;
   headers: {

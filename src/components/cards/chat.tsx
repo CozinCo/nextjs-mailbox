@@ -38,6 +38,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ScrollArea } from "../ui/scroll-area"
+import { AuthContext } from "@/context/AuthContext"
 
 const users = [
   {
@@ -69,7 +70,7 @@ const users = [
 
 type User = (typeof users)[number]
 
-export function CardsChat() {
+export function CardsChat({ ctx }: { ctx: AuthContext }) {
   const [open, setOpen] = React.useState(false)
   const [selectedUsers, setSelectedUsers] = React.useState<User[]>([])
 
@@ -100,7 +101,7 @@ export function CardsChat() {
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src="/avatars/01.png" alt="Image" />
+              <AvatarImage src="" alt="Image" />
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
             <div>
@@ -116,7 +117,7 @@ export function CardsChat() {
                   size="icon"
                   variant="outline"
                   className="ml-auto rounded-full"
-                  onClick={() => setOpen(true)}
+                  onClick={() => ctx.setOpenChatBox(false)}
                 >
                   <Plus className="h-4 w-4" />
                   <span className="sr-only">New message</span>
@@ -128,21 +129,21 @@ export function CardsChat() {
         </CardHeader>
         <CardContent>
           <div className="-mr-4">
-           <ScrollArea className="h-80">
-           {messages.map((message, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "flex w-max max-w-[75%] flex-col gap-2 rounded-lg my-2 px-3 py-2 text-sm",
-                  message.role === "user"
-                    ? "ml-auto dark:bg-cyan-300 bg-slate-800 text-primary-foreground"
-                    : "bg-muted"
-                )}
-              >
-                {message.content}
-              </div>
-            ))}
-           </ScrollArea>
+            <ScrollArea className="h-80">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "flex w-max max-w-[75%] flex-col gap-2 rounded-lg my-2 px-3 py-2 text-sm",
+                    message.role === "user"
+                      ? "ml-auto dark:bg-cyan-300 bg-slate-800 text-primary-foreground"
+                      : "bg-muted"
+                  )}
+                >
+                  {message.content}
+                </div>
+              ))}
+            </ScrollArea>
           </div>
         </CardContent>
         <CardFooter>
@@ -211,7 +212,7 @@ export function CardsChat() {
                     }}
                   >
                     <Avatar>
-                      <AvatarImage src={user.avatar} alt="Image" />
+                      {/* <AvatarImage src={user.avatar} alt="Image" /> */}
                       <AvatarFallback>{user.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="ml-2">

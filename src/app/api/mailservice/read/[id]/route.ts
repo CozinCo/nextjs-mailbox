@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             let lock = await client.getMailboxLock(mailbox);
             let getMessage = await client.fetchOne(id, { source: true, flags: true, labels: true, internalDate: true }) as CustomMessageObj
             let parsed = await simpleParser(getMessage.source);
- 
+            
             emailData.from = {
                 name: parsed?.from?.value[0],
                 email: parsed?.from?.value[1]
@@ -32,6 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             emailData.replyTo = parsed?.replyTo
             emailData.subject = parsed.subject;
             emailData.body = parsed.html;
+            emailData.textAsHtml = parsed.text|| parsed.textAsHtml;
             emailData.attachments = parsed.attachments;
             emailData.time = parsed.date;
             emailData.attachments = parsed.attachments;
@@ -39,9 +40,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
                 threadTopic: parsed.headers.get("thread-topic"),
                 inReplyTo: parsed.headers.get("in-reply-to"),
                 mimeVersion: parsed.headers.get("mime-version"),
-            };
-
-            lock.release()
+            };  
+             
+          lock.release()
             return new NextResponse(JSON.stringify({ success: true, message: "", result: emailData }), {
                 status: 200,
             });
