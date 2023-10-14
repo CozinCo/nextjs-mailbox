@@ -7,6 +7,7 @@ import MailBody from '../components/mailBody'
 import MailHeadersInfo from '../components/info'
 import { cookies } from 'next/headers'
 import { IUser } from '@/context/AuthContext'
+import NoMails from '@/app/(protected)/components/NoMails'
 
 const ReadPage = async ({ params }: { params: { folderName: string, id: string } }) => {
     const iauth = JSON.parse(cookies().get('iauth')!.value) as unknown as IUser
@@ -31,10 +32,7 @@ const ReadPage = async ({ params }: { params: { folderName: string, id: string }
                     </div>
                     <OptionsFooter />
                 </>
-            ) : null}
-
-
-
+            ) : <NoMails />}
         </>
     )
 }

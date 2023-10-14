@@ -32,7 +32,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         },
         [],
     )
-console.log(ctx?.loader)
+ 
     React.useEffect(() => {
         FetchMailBox()
     }, [])

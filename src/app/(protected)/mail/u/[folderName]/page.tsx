@@ -6,7 +6,7 @@ import MailBoxFooter from '@/app/(protected)/components/MailBoxFooter';
 import MailBoxArea from '@/app/(protected)/components/MailBoxArea';
 import { cookies } from 'next/headers';
 import { IUser } from '@/context/AuthContext';
-import { MailBoxData } from '@/types/nav';
+
 import NoMails from '@/app/(protected)/components/NoMails';
 
 const Page = async ({ params }: { params: { folderName: string } }) => {

@@ -24,7 +24,7 @@ export function UserAuthForm({
   const router = useRouter();
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [showSetupButton, setShowSetupButton] = React.useState(true);
+  const [showSetupButton, setShowSetupButton] = React.useState(false);
   const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 
    
@@ -81,6 +81,7 @@ export function UserAuthForm({
       window.localStorage.setItem("iauth", Data);
       Cookies.set('iauth', Data)
     } catch (error: any) {
+      setShowSetupButton(true)
       toast({
         title: "Something went wrong",
         description: error.message,

@@ -113,7 +113,7 @@ export default function ComposeCard() {
 
                                 <Input type="text" id='subject' placeholder="Subject" />
                                 <Textarea id='message' placeholder="Type your message here." rows={18} />
-
+                                    
                             </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">

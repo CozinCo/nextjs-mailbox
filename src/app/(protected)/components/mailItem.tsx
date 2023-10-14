@@ -1,6 +1,6 @@
 import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
-import { cn, dateToFromNowDaily } from '@/lib/utils'
+import {   dateToFromNowDaily } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 import { MailBoxData } from '@/types/nav'
@@ -39,7 +39,7 @@ const MailReceivedItem = ({ folderName, result }: { folderName: string, result: 
                 <td className="px-6 py-2 relative flex items-center space-x-4 whitespace-nowrap p-4">
                    
                     <Link
-                        href={`${folderName}/read/${item.id}-${item.seq}`}
+                        href={`/mail/u/${folderName}/read/${item.id}-${item.seq}`}
                         className="text-base font-semibold text-gray-900 after:absolute after:inset-0 dark:text-white"
                     >
                        {item.name === "" ?  item.address : item.name}

@@ -1,8 +1,8 @@
 import React from 'react'
 import MailReceivedItemItem from './MailItem'
 import { ScrollArea } from '@/components/ui/scroll-area'
-
-const MailBoxArea = ({ folderName, result }: { folderName: string, result: any[] }) => {
+import {  MailBoxData } from '@/types/nav';
+const MailBoxArea = ({ folderName, result }: { folderName: string, result: MailBoxData[] }) => {
     return (
         <ScrollArea className='h-[83%] mt-2'>
             <div className="flex flex-col">

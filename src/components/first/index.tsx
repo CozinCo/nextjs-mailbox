@@ -21,21 +21,31 @@ import {
 } from "@/components/ui/select"
 import { ScrollArea } from "../ui/scroll-area"
 import { useAuth } from "@/hooks/useAuth"
+import { ConfirmationBox } from "./confirmationBox"
+import { useRouter } from "next/navigation"
+import { toast } from "@/hooks/use-toast"
+import { createMailAccount } from "@/lib/fetcher"
+import { InfoIcon } from "lucide-react"
 const Domains = [
-  "Outlook",
-  "Gmail",
+  "Outlook.com",
+  "Gmail.com",
   "Other"
 ]
+interface Auth {
+  user: string,
+  password: string
+}
 const ConfigFields = [
   {
     name: "imap_host",
-    label: "Imap Host",
+    label: "IMAP Host",
     placeholder: "mail.domain.com",
 
   },
   {
     name: "imap_port",
-    label: "Imap Port",
+    label: "IMAP Port",
+    type: "number",
     placeholder: "993",
   },
   {
@@ -46,44 +56,63 @@ const ConfigFields = [
   {
     name: "smtp_port",
     label: "SMTP Port",
+    type: "number",
     placeholder: "465/587",
-  },
-  {
-    name: "user",
-    label: "Username",
-    placeholder: "Username",
-  },
-  {
-    name: "password",
-    label: "Password",
-    placeholder: "Password",
   },
 ]
 export function CardWithForm() {
   const ctx = useAuth()
+  const router = useRouter()
   const [name, setName] = React.useState("")
-  const [domain, setDomain] = React.useState<string | null>(null)
+  const [domainName, setDomainName] = React.useState("")
+  const [authDetails, setAuthDetails] = React.useState<null | Partial<Auth>>(null)
+  const [selectedDomain, setSelectedDomain] = React.useState<string | null>(null)
+  const [openConfirmBox, setOpenConfirmBox] = React.useState<boolean>(false)
   const [config, setConfig] = React.useState<Record<string, any> | null>(null)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     setConfig({ ...config, [e.target.name]: e.target.value })
+    console.log(config)
   }
   const handleCreateButtonSubmit = async () => {
-
-    // e.preventDefault()
     try {
+      setOpenConfirmBox(false)
       ctx?.setLoader(true)
-      //   const res = await ctx?.createMailAccount(name, domain, config)
-      // if (res) {
-      //   setName("")
-      //   setDomain(null)
-      //   setConfig(null)
-      // }
+      const defaultConfig = { name, domain: Domains[+selectedDomain!], secure: false }
+      const data = Object.assign({}, config, defaultConfig, authDetails)
+      if (!data.name || !data.user || !data.password) {
+        return toast({
+          title: "Error",
+          description: "Please fill all the fields",
+          variant: "alert",
+        })
+      }
+      if (selectedDomain !== null && Domains[+selectedDomain] === "Other") {
+        data.domain = domainName
+      }
+
+      const res = await createMailAccount(data)
+
+      if (res.success) {
+        setName("")
+        setDomainName("")
+        setAuthDetails(null)
+        setConfig(null)
+        toast({ title: "Success", description: res.message, variant: "info" })
+        router.push("/signin")
+      }
     } catch (error) {
+      toast({ title: "Success", description: "Something went wrong", variant: "debug" })
 
     } finally {
       ctx?.setLoader(false)
     }
   }
+  React.useEffect(() => {
+    setConfig(null)
+  }, [selectedDomain])
+
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -96,10 +125,15 @@ export function CardWithForm() {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Your Name</Label>
               <Input placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} />
+              <div className="flex gap-4 items-center ">
+                <small className="text-rose-300 ">Your Name going to be use as Tenant Name so keep it unique. </small>
+                <InfoIcon className="text-emerald-500 h-4 w-4 hover:text-emerald-600 cursor-pointer" />
+              </div>
+
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="domain">Domain</Label>
-              <Select onValueChange={(value) => setDomain(value)}>
+              <Select onValueChange={(value) => setSelectedDomain(value)}>
                 <SelectTrigger id="domain">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -110,39 +144,52 @@ export function CardWithForm() {
                 </SelectContent>
               </Select>
             </div>
-            <ScrollArea className={!domain ? "" : "h-56"}>
-              {domain && Domains[+domain] === "Other" && <div className="flex flex-col space-y-1.5">
+            <ScrollArea className={selectedDomain !== null && Domains[+selectedDomain] === "Other" ? "h-60" : ""}>
+              {selectedDomain && Domains[+selectedDomain] === "Other" && <div className="flex flex-col space-y-1.5">
                 <div className="flex flex-col space-y-2">
                   <Label htmlFor="domainname">
                     Domain Name
                   </Label>
-                  <Input placeholder="Domain Name" value="" onChange={(e) => setDomain(e.target.value)} />
+                  <Input placeholder="Domain Name" value={domainName} onChange={(e) => setDomainName(e.target.value)} />
                 </div>
               </div>}
-              {domain &&
+              {selectedDomain && Domains[+selectedDomain] === "Other" &&
                 <div className="text-center">Mail Server Configuration</div> &&
                 ConfigFields.map((item: any, index) =>
                 (
                   <React.Fragment key={index}>
                     <div className="flex flex-col space-y-1.5">
                       <Label className="mt-2" htmlFor={item.name}>{item.label}</Label>
-                      <Input placeholder={item.placeholder} value={name} onChange={(e) => setName(e.target.value)} />
+                      <Input placeholder={item.placeholder} name={item.name} value={config?.[item.name]} onChange={handleInputChange} {...item} />
                     </div>
                   </React.Fragment>
 
                 )
                 )
               }
+              <div className="flex flex-col space-y-2">
+                <Label htmlFor="user">
+                  User
+                </Label>
+                <Input placeholder="User" type="email" value={authDetails?.user} onChange={(e) => setAuthDetails({ ...authDetails, user: e.target.value })} />
+              </div>
+              <div className="flex flex-col my-2 space-y-2">
+                <Label htmlFor="password">
+                  Password
+                </Label>
+                <Input placeholder="Password" value={authDetails?.password} onChange={(e) => setAuthDetails({ ...authDetails, password: e.target.value })} />
+              </div>
+
             </ScrollArea>
 
           </div>
         </form>
 
-
+        <ConfirmationBox open={openConfirmBox} close={() => setOpenConfirmBox(false)} onSubmit={handleCreateButtonSubmit} />
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button onClick={()=>handleCreateButtonSubmit}>Create</Button>
+        <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
+        {selectedDomain !== null && <Button onClick={Domains[+selectedDomain] === "Other" ? () => setOpenConfirmBox(true) : handleCreateButtonSubmit}>Create</Button>}
       </CardFooter>
     </Card>
   )
